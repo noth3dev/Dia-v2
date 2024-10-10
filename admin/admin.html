@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="admin.css">
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
+</head>
+<body>
+
+    <!-- 사이드바 -->
+    <div class="sidebar">
+        <h2>DiA v2</h2>
+        <a href="#section1">Dashboard</a>
+        <a href="#section2">Users</a>
+        <a href="#section3">Print</a>
+        <a href="#section4">Notif</a>
+    </div>
+
+    <!-- 콘텐츠 영역 -->
+    <div class="content">
+
+        <!-- Dashboard 섹션 -->
+        <div id="section1" class="section">
+            <h2>Dashboard</h2>
+            <p>웹의 전반적 기능 관리</p>
+
+            <!-- 웹 차단 텍스트로 된 활성/비활성 -->
+            <div>
+                <label for="webBlock">Website Block</label>
+                <span class="toggle-text" onclick="toggleStatus(this)">Inactive</span>
+            </div>
+
+            <!-- 유저 차단 텍스트로 된 활성/비활성 -->
+            <div style="margin-top: 20px;">
+                <label for="userBlock">User Block</label>
+                <span class="toggle-text" onclick="toggleStatus(this)">Inactive</span>
+            </div>
+
+            <!-- 유저 접속 기록 -->
+            <div style="margin-top: 20px;">
+                <h3>사용자 접속 기록</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>User ID</th>
+                            <th>Last Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1306 김세준</td>
+                            <td>a1234567</td>
+                            <td>2024-10-10 14:25</td>
+                        </tr>
+                        <tr>
+                            <td>1320 유정화</td>
+                            <td>bgt5fyu4231i56</td>
+                            <td>2024-10-10 13:05</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Users 섹션 -->
+        <div id="section2" class="section">
+            <h2>Users</h2>
+            <p>사용자 정보</p>
+
+            <!-- 사용자 정보 테이블, 토큰은 편집 가능 -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Last Login</th>
+                        <th>Token Balance (Editable)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1306 김세준</td>
+                        <td>2024-10-10 14:25</td>
+                        <td><input type="number" value="120"></td>
+                    </tr>
+                    <tr>
+                        <td>1320 유정화</td>
+                        <td>2024-10-10 13:05</td>
+                        <td><input type="number" value="150"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Print 섹션 -->
+        <div id="section3" class="section">
+            <h2>Print</h2>
+            <p>프린트 정보</p>
+
+            <!-- 프린트 대기열 확인 -->
+            <h3>Print Queue</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th>User</th>
+                        <th>Pages</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="printQueueBody">
+                    <!-- 대기열이 여기 렌더링됨 -->
+                </tbody>
+            </table>
+
+            <h3>Print Logs</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th>User</th>
+                        <th>Pages</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody id="printLogsBody">
+                    <!-- 대기열이 여기 렌더링됨 -->
+                </tbody>
+            </table>
+
+            <!-- 프린트 비용 설정 -->
+            <div style="margin-top: 20px;">
+                <label for="pricePerPage">장당 가격:</label>
+                <input type="number" id="pricePerPage" value="30"> 원
+            </div>
+
+            <!-- 프린트 비용 기록 내보내기 -->
+            <div style="margin-top: 20px;"><button class="button" onclick="exportCostData()">비용 기록 내보내기</button>
+
+            </div>
+        </div>
+
+        <!-- Notif 섹션 -->
+        <div id="section4" class="section">
+            <h2>Notifications & suhangs</h2>
+            <p>공지 / 수행 관리</p>
+
+            <!-- Landing Notif 텍스트아레아 -->
+            <div style="margin-bottom: 20px;">
+                <label for="landingNotif">Landing Notification</label>
+                <textarea id="landingNotif" placeholder="랜딩 페이지 공지사항"></textarea>
+            </div>
+
+            <!-- Main Notif 텍스트아레아 -->
+            <div>
+                <label for="mainNotif">Main Notification</label>
+                <textarea id="mainNotif" placeholder="메인 페이지 알림장"></textarea>
+            </div>
+
+            <!-- 평가 추가 섹션 -->
+            <div style="margin-top: 30px;">
+                <h3>Add suhang</h3>
+                <label for="evalDate">Date: </label>
+                <input type="date" id="evalDate"><br>
+                <label for="evalName">suhang Name: </label>
+                <input type="text" id="evalName"><br>
+                <label for="evalPeriod">Period: </label>
+                <input type="number" id="evalPeriod"><br>
+                <button class="button" onclick="addsuhang()">Add suhang</button>
+            </div>
+
+            <!-- 평가 리스트 -->
+            <div style="margin-top: 30px;">
+                <h3>suhang List</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>suhang Name</th>
+                            <th>Period</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="evalTableBody">
+                        <!-- 평가 리스트가 여기 렌더링됨 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="admin.js"></script>
+</body>
+
+</html>
