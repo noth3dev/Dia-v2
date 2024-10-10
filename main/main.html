@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>DiA v2</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="print.css">
+    
+<div class="navbar">
+    DiA v2
+
+</div>
+</head>
+<body>
+
+    <div class="menu-bar">
+        <div class="menu-item" onclick="showSlide(0)">🍽️ <span>급식</span></div>
+        <div class="menu-item" onclick="showSlide(1)">🏫 <span>학교생활</span></div>
+        <div class="menu-item" onclick="showSlide(2)">📝 <span>시험</span></div>
+        <div class="menu-item" onclick="showSlide(3)">🖨️ <span>프린트</span></div>
+        <div class="menu-item" onclick="showSlide(4)">🪑 <span>자리배치</span></div>
+        <div class="menu-item" onclick="showSlide(5)">🧹 <span>청소</span></div>
+        <!--7 홀짝게임 씀
+        <div class="menu-item" onclick="showSlide(6)">🔥 <span>열품타</span></div>-->   
+    </div>
+
+    <div class="main-content" id="main-content">
+        
+        <div class="contpf">
+            <img src="https://via.placeholder.com/80" alt="Profile Image">
+            <div class="cont-info">
+                <h2>1306 김세준</h2>
+                <p class="greeting" id="greeting"></p> 
+            </div>
+            <div class="profile-buttons">
+                <button class="pfbtn" id="logoutButton">🛫 Logout</button>
+                <button class="pfbtn" id="gameButton">🕹️ 홀짝게임</button>
+
+            </div>
+        </div>
+
+        
+        
+        
+        <div class="slideshow-container">
+            <div class="slide-wrapper" id="slideWrapper">
+                
+                <div class="slides">
+                
+                    <div class="date-nav">
+                        <button class="datesel" onclick="changeDate(-1)">&#10094;</button>
+                        <span class="meal-date" id="mealDate"></span>
+                        
+                        <button class="datesel" onclick="changeDate(1)">&#10095;</button>
+                        
+                    </div>
+                    <button id="todayMealButton" style="display: none;" onclick="showTodayMeal()">오늘 급식 보기</button>
+                    <div class="meal-container">
+
+                        <div class="meal-card">
+                            <h3>🌤️ 아침</h3>
+                            <ul id="breakfast"></ul>
+                        </div>
+                        <div class="meal-card">
+                            <h3>🔥 점심</h3>
+                            <ul id="lunch"></ul>
+                        </div>
+                        <div class="meal-card">
+                            <h3>🌙 저녁</h3>
+                            <ul id="dinner"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="slides">
+                    
+                    
+                    <div class="notices">
+                        <h3>알림장</h3>
+                        <ul>
+                            <li>수학 과제 제출: 10월 13일까지</li>
+                            <li>영어 단어 시험: 10월 14일</li>
+                            <li>체육대회 준비물: 10월 15일</li>
+                            
+                        </ul>
+                    </div>
+                
+                </div>
+
+
+
+                <div class="slides">
+                        <div class="calendar">
+                        <h3>이번 주 일정</h3>
+                        <table id="weeklyCalendar">
+                            <thead>
+                                <tr>
+                                    <th>월요일</th>
+                                    <th>화요일</th>
+                                    <th>수요일</th>
+                                    <th>목요일</th>
+                                    <th>금요일</th>
+                                    <th>토요일</th>
+                                    <th>일요일</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="mon"></td>
+                                    <td id="tue"></td>
+                                    <td id="wed"></td>
+                                    <td id="thu"></td>
+                                    <td id="fri"></td>
+                                    <td id="sat"></td>
+                                    <td id="sun"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="next-week-tests">
+                        <h3>다음주 수행평가</h3>
+                        <p id="nextWeekTests" title="다음주 수행평가 정보"></p>
+                    </div>
+                
+                    
+                </div>
+                
+                
+                
+
+                <div class="slides">
+                    <div class="container">
+                        <!-- 왼쪽 파일 업로드 섹션 -->
+                        <div class="left-section">
+                            <div class="file-upload" id="drop-area">
+                                <p>여기로 파일을 드래그 앤 드롭 하세요</p>
+                                <p>또는 클릭하여 파일 선택</p>
+                                <input type="file" id="fileInput" accept=".pdf">
+                                <!-- 파일 미리보기 -->
+                                <div class="file-preview" id="file-preview"></div>
+                            </div>
+                        </div>
+                
+                        <!-- 오른쪽 인쇄 설정 섹션 -->
+                        <div class="right-section">
+                            <!-- 인쇄 설정 -->
+                            <div class="settings">
+                                <h3>인쇄 설정</h3>
+                
+                                <!-- 색상 선택 -->
+                                <h4>색상 선택</h4>
+                                <div class="toggle-button-group">
+                                    <button class="toggle-button active" id="blackwhite-btn">흑백</button>
+                                    <button class="toggle-button" id="color-btn">컬러</button>
+                                </div>
+                
+                                <!-- 출력 방향 -->
+                                <!-- <h4>출력 방향</h4>
+                                <div class="toggle-button-group">
+                                    <button class="toggle-button active" id="portrait-btn">세로</button>
+                                    <button class="toggle-button" id="landscape-btn">가로</button>
+                                </div> -->
+                
+                                <!-- 용지 크기 -->
+                                <h4>용지 크기</h4>
+                                <div class="toggle-button-group">
+                                    <button class="toggle-button active" id="a4-btn">A4</button>
+                                    <button class="toggle-button" id="a5-btn">A5</button>
+                                    <button class="toggle-button" id="letter-btn">Letter</button>
+                                    <button class="toggle-button" id="legal-btn">Legal</button>
+                                </div>
+                
+                                <!-- 페이지 범위 -->
+                                <h4>페이지 범위</h4>
+                                <div class="toggle-button-group">
+                                    <button class="toggle-button active" id="all-pages-btn">전체</button>
+                                    <button class="toggle-button" id="selected-pages-btn">선택 페이지</button>
+                                    <input type="text" id="page-range-input" class="page-range-input" placeholder="1,3-5" pattern="/^(\d+(-\d+)?)(,\s*\d+(-\d+)?)*$/gm">
+                                </div>
+                
+                                <h4>복사 매수</h4>
+                                <!-- <div class="toggle-button-group">
+                                    <button class="toggle-button active" id="all-pages-btn">전체</button>
+                                    <button class="toggle-button" id="selected-pages-btn">선택 페이지</button> -->
+                                    <input type="number" id="copy-input" class="copy-input" placeholder="1" value="1" min="1" max="10">
+                                <!-- </div> -->
+                
+                                <!-- 프린트 신청 버튼 -->
+                                <button class="submit-btn" id="submit-btn">프린트 신청</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slides">
+                    <button id="randomizeButton" class="stbtn">자리 랜덤 배치</button>
+                    <button id="downloadButton" class="stbtn">자리배치 다운로드</button>
+                    <div class="seating-arrangement" id="seatingArrangement"></div>
+                    <canvas id="downloadCanvas"></canvas> 
+                </div>
+                
+                <div class="slides">
+                    <table class="cleaning-table" id="cleaningTable">
+                        <thead>
+                            <tr>
+                                <th>1분단</th>
+                                <th>2분단</th>
+                                <th>3분단</th>
+                                <th>앞뒤</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="bold">책상 밀기</span><br><span id="group1_student1">???</span> <span id="group1_student2">???</span></td>
+                                <td><span class="bold">책상 밀기</span><br><span id="group2_student1">???</span> <span id="group2_student2">???</span></td>
+                                <td><span class="bold">책상 밀기</span><br><span id="group3_student1">???</span> <span id="group3_student2">???</span></td>
+                                <td></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="bold">쓸기</span><br><span id="group4_student1">???</span></td>
+                                <td><span class="bold">쓸기</span><br><span id="group5_student1">???</span></td>
+                                <td><span class="bold">쓸기</span><br><span id="group6_student1">???</span></td>
+                                <td><span class="bold">쓸기</span><br><span id="group7_student1">???</span></td>
+                            </tr>
+                
+                            <tr>
+                                <td colspan="4"></td>
+                            </tr> 
+                
+                            <tr>
+                                <td><span class="bold">월</span><br><span id="group8_student1">???</span> <span id="group8_student2">???</span> <span id="group8_student3">???</span></td>
+                                <td><span class="bold">목</span><br><span id="group9_student1">???</span> <span id="group9_student2">???</span> <span id="group9_student3">???</span></td>
+                                <td><span class="bold">멀티탭 정리</span><br><span id="group10_student1">???</span></td>
+                                <td><span class="bold">청소함 및 분리수거함 정리</span><br><span id="group11_student1">???</span></td>
+                            </tr>
+                
+                            <tr>
+                                <td colspan="2"><span class="bold">쓰레기통 비우기</span><br><span id="group12_student1">???</span> <span id="group12_student2">???</span> <span id="group12_student3">???</span> <span id="group12_student4">???</span></td>
+                                <td colspan="2"><span class="bold">칠판 닦기 및 창가 정리</span><br><span id="group13_student1">???</span></td>
+                            </tr>
+                
+                            <tr>
+                                <td>301<br><span id="group14_student1">???</span></td>
+                                <td>302<br><span id="group15_student1">???</span></td>
+                                <td>303<br><span id="group16_student1">???</span></td>
+                                <td>304<br><span id="group17_student1">???</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="buttons">
+                        <button id="randomizeCleaningButton" class="stbtn">청소 랜덤 배치</button>
+                        <button id="downloadCleaningButton" class="stbtn">청소표 다운로드</button>
+                    </div>
+                </div>
+                <div class="slides">
+                </div>
+                
+                <div class="slides" id="gameSlide">
+                    <h2>홀짝게임</h2>
+                    <div class="game-container">
+                        <p>현재 보유 토큰: <span id="tokenCount">100</span></p> 
+                        <p>홀(H) 또는 짝(E)를 선택하세요:</p>
+                        <input type="number" id="betAmount" placeholder="배팅할 토큰 수" min="1" max="100">
+                        <div>
+                            <button class="stbtn" onclick="placeBet('H')">홀</button>
+                            <button class="stbtn" onclick="placeBet('E')">짝</button>
+                        </div>
+                        <div id="rollingNumber" class="rolling-number">00</div> 
+                        <p id="gameResult"></p> 
+                        <h3>토큰 랭킹</h3>
+                        <ol id="tokenRanking"></ol> 
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="main.js"></script>
+<script src="print.js"></script>
+</body>
+</html>
