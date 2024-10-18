@@ -22,6 +22,24 @@
         }
 
         
+        async function notifycheck() {
+            const body = document.getElementById('notice-body')
+            let notify = await fetch('https://api.dimiprint.site/mainnotify')
+            notify = await notify.json()
+            while (body.firstChild) {
+                body.removeChild(body.firstChild)
+            }
+            if (!notify.body) return
+            notify = notify.body.split('\n')
+            notify.map(element => {
+                const li = document.createElement('li')
+                li.innerText = element
+                body.appendChild(li)
+            })
+        }
+
+        notifycheck()
+        
         function randomGreeting() {
             const greetings = ["Hello world", "i wanna go home", "i wanna eat ramen", "Greetings", "Dimigo Out", "반갑노 게이야"];
             const randomIndex = Math.floor(Math.random() * greetings.length);
@@ -119,7 +137,7 @@ function updateTodayMealButton() {
     if (currentDate.toISOString().split('T')[0] !== todayDate) {
         todayMealButton.style.display = 'inline-block'; // 다른 날짜인 경우 버튼 표시
     } else {
-        todayMealButton.style.display = 'none';s
+        todayMealButton.style.display = 'none';
     }
 }
 
@@ -447,16 +465,22 @@ document.addEventListener('keydown', function(event) {
 
 
 document.getElementById('logoutButton').addEventListener('click', function() {
-    alert("You have logged out!"); 
-    
+    let cookie = document.cookie
+    let ssid = cookie.split('ssid=')
+    ssid = ssid[ssid.length - 1]
+    location.href = '/logout?ssid=' + ssid
 });
+
+document.getElementById('adminButton').addEventListener('click', function() {
+    location.href = '/admin'
+})
 
 
 document.getElementById('gameButton').addEventListener('click', function() {
     showSlide(7); 
 });
 
-let tokens = 10000; 
+let tokens = 100; 
 const tokenDisplay = document.getElementById('tokenCount');
 const gameResult = document.getElementById('gameResult');
 const rollingNumberDisplay = document.getElementById('rollingNumber');
@@ -465,9 +489,9 @@ const tokenRankingDisplay = document.getElementById('tokenRanking');
 
 
 const players = [
-    { name: 'Player 1', tokens: 150 },
-    { name: 'Player 2', tokens: 200 },
-    { name: 'Player 3', tokens: 180 },
+    // { name: 'Player 1', tokens: 150 },
+    // { name: 'Player 2', tokens: 200 },
+    // { name: 'Player 3', tokens: 180 },
     { name: 'You', tokens: tokens } 
 ];
 
@@ -646,5 +670,5 @@ function loadRanking() {
 }
 
 // Automatically load ranking when ranking tab is opened
-document.querySelector('.tab-button[onclick="openTab(event, \'ranking\')"]').addEventListener('click', loadRanking);
+// document.querySelector('.tab-button[onclick="openTab(event, \'ranking\')"]').addEventListener('click', loadRanking);
 
