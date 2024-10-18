@@ -357,7 +357,8 @@ fetchMealData(currentDate);
                 eventsForDay.forEach(event => {
                     const eventItem = document.createElement('li');
                     eventItem.classList.add('event');
-                    eventItem.textContent = `${event.name} (${event.period}교시)`; 
+                    eventItem.innerHTML = `${event.name}<br>(${event.period}교시)`;
+
                     eventList.appendChild(eventItem);
                 });
                 dayElement.appendChild(eventList); 
